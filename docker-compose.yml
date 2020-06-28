@@ -1,0 +1,27 @@
+version: '3.7'
+
+services:
+  postgress_db:
+    image: "postgres:11"
+    container_name: postgres_db
+    environment:
+      - "POSTGRES_HOST_AUTH_METHOD=trust"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - 5432:5432
+  dictionary_django:
+    container_name: dictionary_django
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./DictionaryDjango:/DictionaryDjango
+    ports:
+      - 80:8000
+    depends_on:
+      - postgress_db
+
+volumes:
+  postgres_data:

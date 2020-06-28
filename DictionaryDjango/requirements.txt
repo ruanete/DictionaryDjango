@@ -1,0 +1,7 @@
+Django>=2
+django-extensions>=2
+djangorestframework==3.11.0
+django-crispy-forms==1.8.1
+psycopg2-binary==2.7.5
+django-bootstrap4
+django-widget-tweaks

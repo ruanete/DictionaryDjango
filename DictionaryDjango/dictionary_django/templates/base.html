@@ -1,0 +1,23 @@
+{% load static %}
+<html>
+    <head>
+        {% block extra_head %}{% endblock %}
+
+        {# Cargamos la librería #}
+        {% load bootstrap4 %}
+        {# CSS Bootstrap #}
+        {% bootstrap_css %}
+    </head>
+    <body>
+        <div class="container-fluid">
+            <h2>{% block title_bar %}{% endblock %}</h2>
+            {% block content %}
+            {% endblock %}
+        </div>
+
+        {# JS y jQuery Bootstrap #}
+        {% bootstrap_javascript jquery='full' %}
+        {% block extra_js %}
+        {% endblock %}
+    </body>
+</html>
