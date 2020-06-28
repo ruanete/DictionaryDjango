@@ -1,5 +1,5 @@
 # DictionaryDjango
-![](https://github.com/actions/DictionaryDjango/workflows/Greet%20Everyone/badge.svg)
+![](https://github.com/actions/DictionaryDjango/workflows/.github/workflows/django.yml/badge.svg)
 
 Dictionary web application implemented with web framework Django.
 
