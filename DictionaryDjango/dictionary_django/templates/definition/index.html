@@ -23,7 +23,7 @@
     {% for definition in object_list %}
     <tr>
         <td>{{ definition.id }}</td>
-        <td>{{ definition.word_meaning_relationship.word }}</td>
+        <td><a href="{% url 'dictionary_django_term_detail' pk=definition.word_meaning_relationship.pk %}">{{ definition.word_meaning_relationship.word }}</a></td>
         <td>{{ definition.meaning }}</td>
         <td>
             <form method="POST" action="remove/{{definition.id}}/">

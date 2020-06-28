@@ -14,7 +14,7 @@ from django_extensions.db import fields as extension_fields
 class term(models.Model):
 
     # Fields
-    word = models.CharField(max_length=100, unique=True, verbose_name='Palabra')
+    word = models.CharField(max_length=100, unique=True, verbose_name='Termino')
 
 
     class Meta:
@@ -42,7 +42,7 @@ class definition(models.Model):
     # Relationship Fields
     word_meaning_relationship = models.ForeignKey(
         'dictionary_django.term',
-        on_delete=models.CASCADE, related_name="definitions", verbose_name='Palabra'
+        on_delete=models.CASCADE, related_name="definitions", verbose_name='Termino'
     )
 
     class Meta:

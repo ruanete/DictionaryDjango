@@ -9,6 +9,7 @@
         {% bootstrap_css %}
     </head>
     <body>
+        {% include "navbar.html" %}
         <div class="container-fluid">
             <h2>{% block title_bar %}{% endblock %}</h2>
             {% block content %}
