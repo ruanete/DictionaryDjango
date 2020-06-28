@@ -1,10 +1,11 @@
 import unittest
 from django.urls import reverse
 from django.test import Client
-from .models import term, definition
+from .models import definition
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 from django.contrib.contenttypes.models import ContentType
+from .factories import DefinitionFactory, TermFactory
 
 
 def create_django_contrib_auth_models_user(**kwargs):
@@ -28,20 +29,8 @@ def create_django_contrib_contenttypes_models_contenttype(**kwargs):
     return ContentType.objects.create(**defaults)
 
 
-def create_term(**kwargs):
-    defaults = {}
-    defaults["word"] = "word"
-    defaults.update(**kwargs)
-    return term.objects.create(**defaults)
-
-
-def create_definition(**kwargs):
-    defaults = {}
-    defaults["meaning"] = "meaning"
-    defaults.update(**kwargs)
-    if "word_meaning_relationship" not in defaults:
-        defaults["word_meaning_relationship"] = create_term()
-    return definition.objects.create(**defaults)
+term_object = TermFactory()
+definition_object = DefinitionFactory(word_meaning_relationship=term_object)
 
 
 class termViewTest(unittest.TestCase):
@@ -59,23 +48,26 @@ class termViewTest(unittest.TestCase):
     def test_create_term(self):
         url = reverse('dictionary_django_term_create')
         data = {
-            "word": "word",
+            "word": term_object.word,
         }
         response = self.client.post(url, data=data)
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 200)
 
     def test_detail_term(self):
-        term = create_term()
-        url = reverse('dictionary_django_term_detail', args=[term.pk,])
+        url = reverse('dictionary_django_term_detail', args=[term_object.pk,])
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_remove_term(self):
+        url = reverse('dictionary_django_term_remove', args=[term_object.pk,])
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
     def test_update_term(self):
-        term = create_term()
         data = {
-            "word": "word",
+            "word": term_object.word,
         }
-        url = reverse('dictionary_django_term_update', args=[term.pk,])
+        url = reverse('dictionary_django_term_update', args=[term_object.pk,])
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, 302)
 
@@ -95,25 +87,28 @@ class definitionViewTest(unittest.TestCase):
     def test_create_definition(self):
         url = reverse('dictionary_django_definition_create')
         data = {
-            "meaning": "meaning",
-            "word_meaning_relationship": create_term().pk,
+            "meaning": definition_object.meaning,
+            "word_meaning_relationship": definition_object.word_meaning_relationship.pk,
         }
         response = self.client.post(url, data=data)
         self.assertEqual(response.status_code, 302)
 
     def test_detail_definition(self):
-        definition = create_definition()
-        url = reverse('dictionary_django_definition_detail', args=[definition.pk,])
+        url = reverse('dictionary_django_definition_detail', args=[definition_object.pk,])
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_remove_definition(self):
+        url = reverse('dictionary_django_definition_remove', args=[definition_object.pk,])
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
     def test_update_definition(self):
-        definition = create_definition()
         data = {
-            "meaning": "meaning",
-            "word_meaning_relationship": create_term().pk,
+            "meaning": definition_object.meaning,
+            "word_meaning_relationship": definition_object.word_meaning_relationship.pk,
         }
-        url = reverse('dictionary_django_definition_update', args=[definition.pk,])
+        url = reverse('dictionary_django_definition_update', args=[definition_object.pk,])
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, 302)
 

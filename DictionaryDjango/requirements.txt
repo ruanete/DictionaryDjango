@@ -5,3 +5,5 @@ django-crispy-forms==1.8.1
 psycopg2-binary==2.7.5
 django-bootstrap4
 django-widget-tweaks
+factory_boy
+Faker

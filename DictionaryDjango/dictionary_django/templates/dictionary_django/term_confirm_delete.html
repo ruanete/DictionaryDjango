@@ -1,0 +1,5 @@
+<form action="{% url 'dictionary_django_term_remove' object.id %}" method="post">
+    {% csrf_token %}
+    <p>Are you sure you want to remove {{ object.name }}?</p>
+    <input type="submit" value="Yes" class="btn btn-primary"/>
+</form>

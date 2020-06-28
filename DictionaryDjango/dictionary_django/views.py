@@ -1,3 +1,4 @@
+from django.urls import reverse
 from django.views.generic import DetailView, ListView, UpdateView, CreateView, DeleteView
 from .models import term, definition
 from .forms import termForm, definitionForm
@@ -14,7 +15,6 @@ class termCreateView(CreateView):
 
 class termRemoveView(DeleteView):
     model = term
-    success_url = "/dictionary_django/dictionary_django/term/"
 
 
 class termDetailView(DetailView):
@@ -37,7 +37,6 @@ class definitionCreateView(CreateView):
 
 class definitionRemoveView(DeleteView):
     model = definition
-    success_url = "/dictionary_django/dictionary_django/definition/"
 
 
 class definitionDetailView(DetailView):
@@ -47,4 +46,3 @@ class definitionDetailView(DetailView):
 class definitionUpdateView(UpdateView):
     model = definition
     form_class = definitionForm
-
